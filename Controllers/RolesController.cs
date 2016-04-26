@@ -110,5 +110,50 @@ namespace BasicAuthentication.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RoleAddToUser(string UserName, string RoleName)
+        {
+            ApplicationUser user = _db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+
+            //var userStore = new UserStore<ApplicationUser>(_db);
+            var thing = _userManager.AddToRoleAsync(user, RoleName).Result;
+
+
+            ViewBag.Message = "Role created successfully !";
+
+            // Repopulate Dropdown Lists
+            var rolelist = _db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = rolelist;
+            var userlist = _db.Users.OrderBy(u => u.UserName).ToList().Select(uu =>
+            new SelectListItem { Value = uu.UserName.ToString(), Text = uu.UserName }).ToList();
+            ViewBag.Users = userlist;
+
+            return View("ManageUserRoles");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GetRoles(string UserName)
+        {
+            if (!string.IsNullOrWhiteSpace(UserName))
+            {
+                ApplicationUser user = _db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+             
+
+                ViewBag.RolesForThisUser = _userManager.GetRolesAsync(user).Result;
+
+                // prepopulat roles for the view dropdown
+                var list = _db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                ViewBag.Roles = list;
+                var userlist = _db.Users.OrderBy(u => u.UserName).ToList().Select(uu =>
+                new SelectListItem { Value = uu.UserName.ToString(), Text = uu.UserName }).ToList();
+                ViewBag.Users = userlist;
+                ViewBag.Message = "Roles retrieved successfully !";
+            }
+
+            return View("ManageUserRoles");
+        }
     }
 }
