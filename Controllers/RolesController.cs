@@ -155,5 +155,21 @@ namespace BasicAuthentication.Controllers
 
             return View("ManageUserRoles");
         }
+
+        [Authorize(Roles = "Admin")]
+        public ApplicationUser GetUser(string UserName)
+        {
+            return _userManager.Users
+                .FirstOrDefault(m => m.UserName == UserName);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteRoleForUser(string UserName, string RoleName)
+        {
+            var role = _userManager.RemoveFromRoleAsync(GetUser(UserName), RoleName).Result;
+
+            return RedirectToAction("ManageUserRoles");
+        }
     }
 }

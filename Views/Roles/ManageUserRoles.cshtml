@@ -58,6 +58,7 @@
         Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
 
     </p>
-
     <input type="submit" value="Delete this user from Role" />
 }
+
+@ViewBag.ResultMessage
