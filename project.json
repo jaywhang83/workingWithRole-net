@@ -23,7 +23,6 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
-        "Microsoft.AspNet.Identity.EntityFramework": "2.2.1"
       }
     },
     "dnxcore50": { }

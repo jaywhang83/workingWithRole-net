@@ -18761,9 +18761,7 @@
       "Microsoft.AspNet.IISPlatformHandler >= 1.0.0-rc1-final",
       "Microsoft.AspNet.Server.Kestrel >= 1.0.0-rc1-final"
     ],
-    "DNX,Version=v4.5.1": [
-      "Microsoft.AspNet.Identity.EntityFramework >= 2.2.1"
-    ],
+    "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": []
   }
 }
